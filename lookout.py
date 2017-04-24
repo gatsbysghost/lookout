@@ -71,7 +71,6 @@ def main():
                         temp.append(line)
                     goodIndex = []
                     badIndex = []
-                    print(temp[:5])
                     for line in temp:
                         match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',line)
                         if match != None:
