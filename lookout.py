@@ -48,20 +48,21 @@ class Fmc(object):
         self.status = status
 
 def main():
+    '''
+    '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
     while True:
         for fmc in fmclist:
-#There is the minute chance that this function will go looking for a log
-#and not find one so we have to prepare for that and just sleep(5) or
-#whatever if we don't see any log for a given FMC.
             logname = fmc.hostname+'.log'
-            with open(logname,'r') as log:
-                pass
-#Split the log into lines. For each line, 
-            if blablabla:
-                fmc.fail()
+            if os.path.isfile(logname):
+                with open(logname,'r') as log:
+                    temp = log.split('\n')
+                    if blablabla:
+                        fmc.fail()
+                    else:
+                        fmc.ok()
             else:
-                fmc.ok()
+                time.sleep(5)
 
 if __name__ == '__main__':
     Process(target=tasc.go()).start()

@@ -15,9 +15,7 @@ from lookoutlist import fmclist
 # Logging File Setup
 # Create a log folder in the server user's ~ directory
 logloc = os.path.expanduser('~')
-if not os.path.exists(logloc+'/lookoutLog'):
-    os.makedirs(logloc+'/lookoutLog')
-os.chdir(logloc+'/lookoutLog/')
+os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
 # Initialize list of commands to be run.
 
 #
