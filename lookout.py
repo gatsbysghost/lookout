@@ -69,7 +69,7 @@ def main():
                     print('Lookout: Opened the file for '+fmc.hostname)
                     temp = []
                     for line in log:
-                        temp = line.split('\n')
+                        temp.append(line.split('\n'))
                     goodIndex = []
                     badIndex = []
                     print(temp[:5])
