@@ -94,27 +94,34 @@ def main():
                     # if there's both a bad match and a good match, get the highest index on which we match
                     # from both goodlist and badlist
                     # so in essence, our condition is just whether goodlist[-1] < badlist[1]
-                    if len(goodIndex) > 0:
+                    if len(goodIndex) == 0
                         if len(badIndex) == 0:
-                            fmc.ok()
-                        else:
-                            if int(goodIndex[-1]) > int(badIndex[-1]):
-                                fmc.ok()
-                                print('Marking FMC '+fmc.hostname+' OK.')
-                            else:
-                                #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
-                                #code = match.group(3)
-                                #fmc.fail(code)
-                                print('Marking FMC '+fmc.hostname+' Failed.')
+                            fmc.debug()
+                            time.sleep(45)
+                        else: pass
                     else:
-                        #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
-                        #code = match.group(3)
-                        fmc.fail()
-                        print('Marking FMC '+fmc.hostname+' Failed.')
+                        if len(goodIndex) > 0:
+                            if len(badIndex) == 0:
+                                fmc.ok()
+                            else:
+                                if int(goodIndex[-1]) > int(badIndex[-1]):
+                                    fmc.ok()
+                                    print('Marking FMC '+fmc.hostname+' OK.')
+                                else:
+                                    #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
+                                    #code = match.group(3)
+                                    #fmc.fail(code)
+                                    print('Marking FMC '+fmc.hostname+' Failed.')
+                        else:
+                            #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
+                            #code = match.group(3)
+                            fmc.fail()
+                            print('Marking FMC '+fmc.hostname+' Failed.')
+                        fmc.debug()
+                        time.sleep(5)
             else:
                 print("Didn't find a log! waiting 5")
                 time.sleep(5)
-        fmc.debug()
         
 if __name__ == '__main__':
     Process(target=main()).start()
