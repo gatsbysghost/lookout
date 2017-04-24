@@ -62,13 +62,16 @@ def main():
     '''
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
+    tasc.go()
     while True:
         for fmc in lookoutlist.fmclist:
             logname = fmc.hostname+'.log'
             if os.path.isfile(logname):
                 with open(logname,'r') as log:
-                    print('Lookout: Opened the file for '+fmc.hostname)
-                    temp = log.split('\n')
+                    #print('Lookout: Opened the file for '+fmc.hostname)
+                    temp = []
+                    for line in log:
+                        temp = line.split('\n')
                     goodIndex = []
                     badIndex = []
                     for line in temp:
@@ -76,15 +79,15 @@ def main():
                         if match != None:
                             # We can record the most recent failcode on the box like this:
                             badIndex.append(temp.index(line))
-                            print('Found a badMatch at line '+str(line))
+                            #print('Found a badMatch at line '+str(line))
                         match = re.search('CloudAgent \[INFO\] Nothing to do, database is up to date', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
-                            print('Found a goodMatch at line '+str(line))
+                            #print('Found a goodMatch at line '+str(line))
                         match = re.search('CloudAgent \[INFO\] Calling URL Filtering DB synchronization perl transaction', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
-                            print('Found a goodMatch at line '+str(line))
+                            #print('Found a goodMatch at line '+str(line))
                     goodIndex.sort()
                     badIndex.sort()
                     # if there's both a bad match and a good match, get the highest index on which we match
@@ -111,9 +114,6 @@ def main():
                 print("Didn't find a log! waiting 5")
                 time.sleep(5)
         fmc.debug()
+        
 if __name__ == '__main__':
-    Process(target=main()).start()
-    print('Started lookout-main')
-    Process(target=tasc.go()).start()
-    print('Started TaSc')
-    
+    main()
