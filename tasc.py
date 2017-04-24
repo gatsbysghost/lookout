@@ -22,7 +22,7 @@ for anyfile in os.listdir(logloc):
         if os.path.isfile(path):
             os.unlink(path)
     except Exception as e:
-        print(e)
+        print(str(e))
 # Initialize list of commands to be run.
 
 #
@@ -56,17 +56,13 @@ def ssh(target):
     run.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     # initiate SSH connection
     try:
-        run.connect(target.ipaddr, username=target.user, password=target.passwd, look_for_keys=False, allow_agent=False)
-    except:
+        run.connect(target.ipaddr, username=target.username, password=target.passwd, look_for_keys=False, allow_agent=False)
+    except Exception as e:
         print('\nSSH ERROR: Check credentials and target IP address, and verify that '
-               'the target is configured to allow SSH access from this host.')
+               'the target is configured to allow SSH access from this host.\n\n'+str(e))
         sys.exit(0)
-    stdin, stdout, stderr = run.exec_command(('\nsudo -i\n'+target.passwd+'\n'),bufsize=10000000)
+    stdin, stdout, stderr = run.exec_command(('\n'),bufsize=10000000)
     time.sleep(3)
-    # sudo -i and input password
-    stdin.write("\nsudo -i\n"+target.passwd+'\n')
-    stdin.flush()
-    time.sleep(1)
     # Send commands to device
     stdin.write('cat /var/log/messages | grep CloudAgent\n')
     stdin.flush()
@@ -88,14 +84,15 @@ def go():
     #
     while True:
         for fmc in fmclist:
-            print('Running TaSc event number ' + str(n) + 'for host ' + str(fmc.hostname))
+            print('Running TaSc event number ' + str(n) + ' for host ' + str(fmc.hostname))
             try:
                 ssh(fmc)
                 print('Data for TaSc event ' + str(n) + ', host '+str(fmc.hostname)+
                       ' written to log.')
                 n += 1
-            except:
+            except Exception as e:
                 print ('\nTaSc encountered an error or an escape sequence was detected.'
-                       '\nShutting down as gracefully as possible, given the circumstances.')
+                       '\nShutting down as gracefully as possible, given the circumstances.'
+                       '\n'+str(e))
                 sys.exit(0)
     exit()

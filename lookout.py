@@ -6,7 +6,7 @@ import re
 from multiprocessing import Process
 
 import tasc
-from lookoutlist import fmclist
+import lookoutlist
 
 '''
 1) Use TaSc to cat /var/log/messages on each FMC we specify
@@ -63,7 +63,7 @@ def main():
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
     while True:
-        for fmc in fmclist:
+        for fmc in lookoutlist.fmclist:
             logname = fmc.hostname+'.log'
             if os.path.isfile(logname):
                 with open(logname,'r') as log:
@@ -102,7 +102,8 @@ def main():
                         fmc.fail(code)
             else:
                 time.sleep(5)
-
+        fmc.debug()
+        time.sleep(60)
 if __name__ == '__main__':
     Process(target=tasc.go()).start()
     Process(target=main()).start()
