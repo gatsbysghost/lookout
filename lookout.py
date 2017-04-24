@@ -47,6 +47,7 @@ class Fmc(object):
         print('Status: '+self.status+'\n')
         if self.status == 'fail':
             print('Failure code: '+self.failcode+'\n')
+        print('----------------------')
 
     def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok', failcode=''):
         self.hostname = hostname
@@ -71,6 +72,7 @@ def main():
                         temp = line.split('\n')
                     goodIndex = []
                     badIndex = []
+                    print(temp[:5])
                     for line in temp:
                         match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',line)
                         if match != None:
@@ -95,7 +97,7 @@ def main():
                     if len(goodIndex) == 0:
                         if len(badIndex) == 0:
                             fmc.debug()
-                            time.sleep(45)
+                            time.sleep(5)
                     else:
                         if len(goodIndex) > 0:
                             if len(badIndex) == 0:
