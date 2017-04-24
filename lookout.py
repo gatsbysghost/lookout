@@ -43,12 +43,12 @@ class Fmc(object):
         self.failcode = ''
         
     def debug(self):
-        print('------FMC DEBUG------')
-        print('Hostname: '+self.hostname)
-        print('IP Addr: '+self.ipaddr)
-        print('Status: '+self.status)
+        print('------FMC DEBUG------\n')
+        print('Hostname: '+self.hostname+'\n')
+        print('IP Addr: '+self.ipaddr+'\n')
+        print('Status: '+self.status+'\n')
         if self.status == 'fail':
-            print('Failure code: '+self.failcode)
+            print('Failure code: '+self.failcode+'\n')
 
     def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok', failcode=''):
         self.hostname = hostname
@@ -67,6 +67,7 @@ def main():
             logname = fmc.hostname+'.log'
             if os.path.isfile(logname):
                 with open(logname,'r') as log:
+                    print('Lookout: Opened the file for '+fmc.hostname)
                     temp = log.split('\n')
                     goodIndex = []
                     badIndex = []
@@ -75,12 +76,15 @@ def main():
                         if match != None:
                             # We can record the most recent failcode on the box like this:
                             badIndex.append(temp.index(line))
+                            print('Found a badMatch at line '+str(line))
                         match = re.search('CloudAgent \[INFO\] Nothing to do, database is up to date', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
+                            print('Found a goodMatch at line '+str(line))
                         match = re.search('CloudAgent \[INFO\] Calling URL Filtering DB synchronization perl transaction', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
+                            print('Found a goodMatch at line '+str(line))
                     goodIndex.sort()
                     badIndex.sort()
                     # if there's both a bad match and a good match, get the highest index on which we match
@@ -92,18 +96,21 @@ def main():
                         else:
                             if int(goodIndex[-1]) > int(badIndex[-1]):
                                 fmc.ok()
+                                print('Marking FMC '+fmc.hostname+' OK.')
                             else:
                                 match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
                                 code = match.group(3)
                                 fmc.fail(code)
+                                print('Marking FMC '+fmc.hostname+' Failed.')
                     else:
                         match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
                         code = match.group(3)
                         fmc.fail(code)
+                        print('Marking FMC '+fmc.hostname+' Failed.')
             else:
+                print("Didn't find a log! waiting 5")
                 time.sleep(5)
         fmc.debug()
-        time.sleep(60)
 if __name__ == '__main__':
     Process(target=tasc.go()).start()
     Process(target=main()).start()
