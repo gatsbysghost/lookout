@@ -89,8 +89,8 @@ def main():
                             print('Found a goodMatch at line '+str(line))
                     goodIndex.sort()
                     badIndex.sort()
-                    print('Good lines: 'str(goodIndex)+'\n')
-                    print('Bad lines: 'str(badIndex)+'\n')
+                    print('Good lines: '+str(goodIndex)+'\n')
+                    print('Bad lines: '+str(badIndex)+'\n')
                     # if there's both a bad match and a good match, get the highest index on which we match
                     # from both goodlist and badlist
                     # so in essence, our condition is just whether goodlist[-1] < badlist[1]
