@@ -73,6 +73,7 @@ def main():
                         temp = line.split('\n')
                     goodIndex = []
                     badIndex = []
+                    print('Temp list is '+len(temp)+' lines long.')
                     for line in temp:
                         match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',line)
                         if match != None:
@@ -98,7 +99,6 @@ def main():
                         if len(badIndex) == 0:
                             fmc.debug()
                             time.sleep(45)
-                        else: pass
                     else:
                         if len(goodIndex) > 0:
                             if len(badIndex) == 0:
@@ -124,5 +124,4 @@ def main():
                 time.sleep(5)
         
 if __name__ == '__main__':
-    Process(target=main()).start()
-    Process(target=tasc.go()).start()
+    main()

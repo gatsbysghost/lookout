@@ -94,3 +94,6 @@ def go():
                        '\n'+str(e))
                 sys.exit(0)
     exit()
+
+if __name__ == '__main__':
+    go()
