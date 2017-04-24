@@ -94,7 +94,7 @@ def main():
                     # if there's both a bad match and a good match, get the highest index on which we match
                     # from both goodlist and badlist
                     # so in essence, our condition is just whether goodlist[-1] < badlist[1]
-                    if len(goodIndex) == 0
+                    if len(goodIndex) == 0:
                         if len(badIndex) == 0:
                             fmc.debug()
                             time.sleep(45)
