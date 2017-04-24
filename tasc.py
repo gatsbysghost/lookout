@@ -7,7 +7,7 @@ import datetime # for getting system time
 
 import paramiko # ssh methods
 
-from lookoutlist import fmclist
+import lookoutlist
 
 #
 # GLOBAL VARIABLES
@@ -81,7 +81,7 @@ def go():
     # MAIN LOOP
     #
     while True:
-        for fmc in fmclist:
+        for fmc in lookoutlist.fmclist:
             print('Running TaSc event number ' + str(n) + ' for host ' + str(fmc.hostname))
             try:
                 ssh(fmc)

@@ -3,9 +3,7 @@
 import os
 import time
 import re
-from multiprocessing import Process
 
-import tasc
 import lookoutlist
 
 '''
