@@ -41,6 +41,14 @@ class Fmc(object):
         '''
         self.status = 'ok'
         self.failcode = ''
+        
+    def debug(self):
+        print('------FMC DEBUG------')
+        print('Hostname: '+self.hostname)
+        print('IP Addr: '+self.ipaddr)
+        print('Status: '+self.status)
+        if self.status == 'fail':
+            print('Failure code: '+self.failcode)
 
     def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok', failcode=''):
         self.hostname = hostname
@@ -66,7 +74,6 @@ def main():
                         match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',line)
                         if match != None:
                             # We can record the most recent failcode on the box like this:
-                            fmc.failcode = match.group(3)
                             badIndex.append(temp.index(line))
                         match = re.search('CloudAgent \[INFO\] Nothing to do, database is up to date', line)
                         if match != None:
@@ -86,9 +93,13 @@ def main():
                             if int(goodIndex[-1]) > int(badIndex[-1]):
                                 fmc.ok()
                             else:
-                                fmc.fail()
+                                match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
+                                code = match.group(3)
+                                fmc.fail(code)
                     else:
-                        fmc.fail()
+                        match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
+                        code = match.group(3)
+                        fmc.fail(code)
             else:
                 time.sleep(5)
 
