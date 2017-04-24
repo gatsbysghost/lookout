@@ -1,8 +1,6 @@
 import os
 import lookoutlist
 
-os.chdir('/var/www/html')
-
 def updateHTML():
 	html = ''
 
@@ -77,5 +75,5 @@ def updateHTML():
 	html += '</table>'
 	html += '</body>'
 	html += '</html>'
-	with open('index.html','w') as f:
+	with open('/var/www/html/index.html','w') as f:
 		f.write(html)
