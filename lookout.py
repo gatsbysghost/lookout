@@ -113,5 +113,7 @@ def main():
         fmc.debug()
 if __name__ == '__main__':
     Process(target=tasc.go()).start()
+    print('Started TaSc')
     Process(target=main()).start()
+    print('Started lookout-main')
     
