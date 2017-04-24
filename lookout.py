@@ -66,7 +66,6 @@ def main():
             logname = fmc.hostname+'.log'
             if os.path.isfile(logname):
                 with open(logname,'r') as log:
-                    print('Lookout: Opened the file for '+fmc.hostname)
                     temp = []
                     for line in log:
                         temp.append(line)
@@ -78,19 +77,14 @@ def main():
                         if match != None:
                             # We can record the most recent failcode on the box like this:
                             badIndex.append(temp.index(line))
-                            print('Found a badMatch at line '+str(line))
                         match = re.search('CloudAgent \[INFO\] Nothing to do, database is up to date', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
-                            print('Found a goodMatch at line '+str(line))
                         match = re.search('CloudAgent \[INFO\] Calling URL Filtering DB synchronization perl transaction', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
-                            print('Found a goodMatch at line '+str(line))
                     goodIndex.sort()
                     badIndex.sort()
-                    print('Good lines: '+str(goodIndex)+'\n')
-                    print('Bad lines: '+str(badIndex)+'\n')
                     # if there's both a bad match and a good match, get the highest index on which we match
                     # from both goodlist and badlist
                     # so in essence, our condition is just whether goodlist[-1] < badlist[1]
@@ -105,21 +99,21 @@ def main():
                             else:
                                 if int(goodIndex[-1]) > int(badIndex[-1]):
                                     fmc.ok()
-                                    print('Marking FMC '+fmc.hostname+' OK.')
+                                    #print('Marking FMC '+fmc.hostname+' OK.')
                                 else:
                                     #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
                                     #code = match.group(3)
                                     #fmc.fail(code)
-                                    print('Marking FMC '+fmc.hostname+' Failed.')
+                                    #print('Marking FMC '+fmc.hostname+' Failed.')
                         else:
                             #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
                             #code = match.group(3)
                             fmc.fail()
-                            print('Marking FMC '+fmc.hostname+' Failed.')
+                            #print('Marking FMC '+fmc.hostname+' Failed.')
                         fmc.debug()
                         time.sleep(5)
             else:
-                print("Didn't find a log! waiting 5")
+                #print("Didn't find a log! waiting 5")
                 time.sleep(5)
         
 if __name__ == '__main__':
