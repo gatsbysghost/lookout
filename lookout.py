@@ -30,15 +30,17 @@ class Fmc(object):
     device statuses).
     '''
 
-    def fail(self):
+    def fail(self, failcode=''):
         '''
         '''
         self.status = 'fail'
+        self.failcode = failcode
 
     def ok(self):
         '''
         '''
         self.status = 'ok'
+        self.failcode = ''
 
     def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok', failcode=''):
         self.hostname = hostname
@@ -63,15 +65,30 @@ def main():
                     for line in temp:
                         match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',line)
                         if match != None:
+                            # We can record the most recent failcode on the box like this:
                             fmc.failcode = match.group(3)
                             badIndex.append(temp.index(line))
+                        match = re.search('CloudAgent \[INFO\] Nothing to do, database is up to date', line)
+                        if match != None:
+                            goodIndex.append(temp.index(line))
+                        match = re.search('CloudAgent \[INFO\] Calling URL Filtering DB synchronization perl transaction', line)
+                        if match != None:
+                            goodIndex.append(temp.index(line))
+                    goodIndex.sort()
+                    badIndex.sort()
                     # if there's both a bad match and a good match, get the highest index on which we match
                     # from both goodlist and badlist
                     # so in essence, our condition is just whether goodlist[-1] < badlist[1]
-                    if blablabla:
-                        fmc.fail()
+                    if len(goodIndex) > 0:
+                        if len(badIndex) == 0:
+                            fmc.ok()
+                        else:
+                            if int(goodIndex[-1]) > int(badIndex[-1]):
+                                fmc.ok()
+                            else:
+                                fmc.fail()
                     else:
-                        fmc.ok()
+                        fmc.fail()
             else:
                 time.sleep(5)
 
