@@ -41,7 +41,7 @@ def updateHTML():
 		html += '<td>'+fmc.ipaddr+'</td>'
 		html += '<td>'+fmc.status+'</td>'
 		if fmc.status == 'fail':
-			html += '<td>'+fmc.code+'</td>'
+			html += '<td>'+fmc.failcode+'</td>'
 		else:
 			html += '<td>n/a</td>'
 	html += '</tr>'
