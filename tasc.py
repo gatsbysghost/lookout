@@ -61,27 +61,17 @@ def ssh(target):
         print('\nSSH ERROR: Check credentials and target IP address, and verify that '
                'the target is configured to allow SSH access from this host.\n\n'+str(e))
         sys.exit(0)
-    print('Opening buffer\n')
     stdin, stdout, stderr = run.exec_command(('\ncat /var/log/messages | grep CloudAgent\n'),bufsize=10000000)
-    print('buffer open\n')
     # Send commands to device
     stdin.flush()
-    print('buffer flushed\n')
     time.sleep(45)
-    print('get stdout\n')
     output = stdout.channel.recv(10000000)
-    print('got stdout\n')
-    print('decoding stdout\n')
     output2 = output.decode('ISO-8859-1')
-    print('decoded stdout\nremoving logfile\n')
     rmLog(target)
-    print('logfile removed\ncreating new log\n')
     log = newLog(target)
-    print('newlog created\ncreating dest file and writing output string\n')
     with log as logger:
         logger.write('\n\n'+output2+'\n')
     # Close connection and log success
-    print('closing')
     run.close()
 
 def go():
