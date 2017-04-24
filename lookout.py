@@ -40,12 +40,13 @@ class Fmc(object):
         '''
         self.status = 'ok'
 
-    def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok'):
+    def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok', failcode=''):
         self.hostname = hostname
         self.ipaddr = ipaddr
         self.username = username
         self.passwd = passwd
         self.status = status
+        self.failcode = failcode
 
 def main():
     '''
@@ -57,6 +58,16 @@ def main():
             if os.path.isfile(logname):
                 with open(logname,'r') as log:
                     temp = log.split('\n')
+                    goodIndex = []
+                    badIndex = []
+                    for line in temp:
+                        match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',line)
+                        if match != None:
+                            fmc.failcode = match.group(3)
+                            badIndex.append(temp.index(line))
+                    # if there's both a bad match and a good match, get the highest index on which we match
+                    # from both goodlist and badlist
+                    # so in essence, our condition is just whether goodlist[-1] < badlist[1]
                     if blablabla:
                         fmc.fail()
                     else:
