@@ -100,14 +100,14 @@ def main():
                                 fmc.ok()
                                 print('Marking FMC '+fmc.hostname+' OK.')
                             else:
-                                match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
-                                code = match.group(3)
-                                fmc.fail(code)
+                                #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
+                                #code = match.group(3)
+                                #fmc.fail(code)
                                 print('Marking FMC '+fmc.hostname+' Failed.')
                     else:
-                        match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
-                        code = match.group(3)
-                        fmc.fail(code)
+                        #match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[goodIndex[-1]])
+                        #code = match.group(3)
+                        fmc.fail()
                         print('Marking FMC '+fmc.hostname+' Failed.')
             else:
                 print("Didn't find a log! waiting 5")
