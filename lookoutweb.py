@@ -14,6 +14,10 @@ def updateHTML():
 	html += '<link rel="stylesheet" href="css/styles.css?v=1.0">'
 	html += '</head>'
 	html += '<body>'
+	html += '<style>'
+	html += 'table {border-collapse:collapse; width:100%;}'
+	html += 'td, th {border:1px solid black; text-align:left; padding:3px;}'
+	html += '</style>'
 	html += '<table>'
 	html += '<tbody>'
 # Top Row (Header)
