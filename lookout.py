@@ -5,6 +5,7 @@ import time
 import re
 
 import lookoutlist
+import lookoutweb
 
 '''
 1) Use TaSc to cat /var/log/messages on each FMC we specify
@@ -114,6 +115,7 @@ def main():
             else:
                 #print("Didn't find a log! waiting 5")
                 time.sleep(5)
+        lookoutweb.updateHTML()
         
 if __name__ == '__main__':
     main()
