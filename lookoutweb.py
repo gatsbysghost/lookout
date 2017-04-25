@@ -23,6 +23,7 @@ def updateHTML():
 	html += '<p><span style="font-size:xx-large; font-weight:bold; align:center;">Brightcloud URL DB Status</span></p>'
 	html += '<table>'
 	html += '<tbody>'
+	html += '<br>'
 # Top Row (Header)
 	html += '<tr>'
 	html += '<td><b>FMC Hostname</b></td>'
