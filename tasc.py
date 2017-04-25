@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+#suthor: Scott Reu (sreu@cisco.com)
+
 import sys # for the big red 'terminate' button
 import time # for waiting
 import os, os.path #for creating the logging fsys

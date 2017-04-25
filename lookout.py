@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+#author: Scott Reu (sreu@cisco.com)
+
 import os
 import time
 import re

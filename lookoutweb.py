@@ -1,3 +1,5 @@
+#author: Scott Reu (sreu@cisco.com)
+
 import os
 import lookoutlist
 
@@ -18,7 +20,7 @@ def updateHTML():
 	html += 'table {border-collapse:collapse;}'
 	html += 'td, th {border:1px solid black; text-align:left; padding:3px;}'
 	html += '</style>'
-	html += '<p><span style="font-size:large; text-align:center;">Brightcloud URL DB Status</span></p>'
+	html += '<p><span style="font-size:xx-large; font-weight:bold; align:center;">Brightcloud URL DB Status</span></p>'
 	html += '<table>'
 	html += '<tbody>'
 # Top Row (Header)
@@ -53,10 +55,9 @@ def updateHTML():
 # Overall Status Table
 	html += '<table>'
 	html += '<tbody>'
-	html += '<th>'
 	html += '<tr>'
-	html += '<td>Overall Status of Cloud Services</td>'
-	html += '</tr></th>'
+	html += '<td><b>Overall Status of Cloud Services</b></td>'
+	html += '</tr>'
 	okCount = 0
 	failCount = 0
 	for fmc in lookoutlist.fmclist:
