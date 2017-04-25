@@ -2,6 +2,7 @@
 
 import os
 import lookoutlist
+from lookout import cloudStatus
 
 def updateHTML():
 	html = ''
@@ -59,24 +60,10 @@ def updateHTML():
 	html += '<tr>'
 	html += '<td><b>Overall Status of Cloud Services</b></td>'
 	html += '</tr>'
-	okCount = 0
-	failCount = 0
-	for fmc in lookoutlist.fmclist:
-		if fmc.status == 'ok':
-			okCount += 1
-		elif fmc.status == 'fail':
-			failCount += 1
-
-	if (okCount + failCount) == 1:
-		if failCount == 1:
+	if cloudStatus() == 'fail':
 			html += '<tr style="background-color:red;"><td>Overall Status: Failed'
-		else:
+	elif cloudStatus() == 'ok':
 			html += '<tr style="background-color:lime;"><td>Overall Status: OK'
-	elif okCount + failCount > 1:
-		if failCount >= 2:
-			html += '<tr style="background-color:red;"><td>Overall Status: Failed'
-		else:
-			'<tr style="background-color:lime;"><td>Overall Status: OK'
 	html += '</td></tr>'
 	html += '</tbody>'
 	html += '</table>'
