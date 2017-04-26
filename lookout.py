@@ -103,6 +103,7 @@ def main():
         )
     result = collection2.insert_one(
         {
+            'name': 'global',
             'status': 'ok'
         }
         )
@@ -171,9 +172,10 @@ def main():
                 }
             )
         result = collection2.update_one(
-        {
-            'status': cloudStatus()
-        }
+                {'name': 'global'},
+                {
+                    'status': cloudStatus()
+                }
         )
         fmccursor = collection1.find()
         print('\nDEBUG: FMCs currently in DB:\n\n')
