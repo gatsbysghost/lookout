@@ -29,8 +29,8 @@ import lookoutweb
 
 client = MongoClient()
 db = client.fmcDB
-collection1 = db.canarydb
-collection2 = db.coalminedb
+collection1 = db.canaries
+collection2 = db.coalmine
 
 class Fmc(object):
     '''
