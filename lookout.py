@@ -95,20 +95,24 @@ def main():
     collection1.drop()
     collection2.drop()
     for fmc in lookoutlist.fmclist:
-        result = collection1.insert_one(
-        {
-            'hostname': fmc.hostname,
-            'ipaddr': fmc.ipaddr,
-            'status': fmc.status,
-            'failcode': fmc.failcode
-        }
-        )
-    result = collection2.insert_one(
-        {
-            'name': 'global',
-            'status': 'ok'
-        }
-        )
+        found = collection1.find({'hostname':fmc.hostname})
+        if len(found) == 0:
+            result = collection1.insert_one(
+            {
+                'hostname': fmc.hostname,
+                'ipaddr': fmc.ipaddr,
+                'status': fmc.status,
+                'failcode': fmc.failcode
+            }
+            )
+    globfound = collection2.find({'name':'global'})
+    if len(found) == 0:
+        result = collection2.insert_one(
+            {
+                'name': 'global',
+                'status': 'ok'
+            }
+            )
     while True:
         for fmc in lookoutlist.fmclist:
             logname = fmc.hostname+'.log'
