@@ -161,7 +161,7 @@ def main():
                 time.sleep(5)
         lookoutweb.updateHTML()
         for fmc in lookoutlist.fmclist:
-            result = db.restaurants.update_one(
+            result = collection1.update_one(
                 {"hostname": fmc.hostname},
                 {
                     "$set": {
@@ -175,5 +175,13 @@ def main():
             'status': cloudStatus()
         }
         )
+        fmccursor = collection1.find()
+        print('\nDEBUG: FMCs currently in DB:\n\n')
+        for document in fmccursor:
+            print(document)
+        globcursor = collection2.find()
+        print('\nDEBUG: Global status currently in DB:\n\n')
+        for document in globcursor:
+            print(document)
 if __name__ == '__main__':
     main()
