@@ -14,6 +14,9 @@ fmcschema = {
 }
 
 overallschema = {
+    'name': {
+        'type': 'string'
+    },
     'status': {
         'type': 'string'
     }
