@@ -171,7 +171,8 @@ def main():
                 {
                     "$set": {
                         "status": fmc.status
-                    }
+                    },
+                    "$currentDate": {"lastModified": True}
                 }
             )
         result = collection2.update_one(
