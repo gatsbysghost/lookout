@@ -96,7 +96,7 @@ def main():
     collection2.drop()
     for fmc in lookoutlist.fmclist:
         found = collection1.find({'hostname':fmc.hostname})
-        if len(found) == 0:
+        if found.count() == 0:
             result = collection1.insert_one(
             {
                 'hostname': fmc.hostname,
@@ -106,7 +106,7 @@ def main():
             }
             )
     globfound = collection2.find({'name':'global'})
-    if len(found) == 0:
+    if globfound.count() == 0:
         result = collection2.insert_one(
             {
                 'name': 'global',
