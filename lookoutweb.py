@@ -2,7 +2,7 @@
 
 import os
 import lookoutlist
-from lookout import cloudStatus
+import lookout
 
 def updateHTML():
 	html = ''
@@ -60,9 +60,9 @@ def updateHTML():
 	html += '<tr>'
 	html += '<td><b>Overall Status of Cloud Services</b></td>'
 	html += '</tr>'
-	if cloudStatus() == 'fail':
+	if lookout.cloudStatus() == 'fail':
 			html += '<tr style="background-color:red;"><td>Overall Status: Failed'
-	elif cloudStatus() == 'ok':
+	elif lookout.cloudStatus() == 'ok':
 			html += '<tr style="background-color:lime;"><td>Overall Status: OK'
 	html += '</td></tr>'
 	html += '</tbody>'
