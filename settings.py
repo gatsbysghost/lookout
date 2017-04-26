@@ -46,5 +46,6 @@ DOMAIN = {'canaries': canaries,
 
 #MONGO_USERNAME = 'cisco'
 #MONGO_PASSWORD = '2BlackEyes!'
-
+MONGO_HOST = 'localhost'
+MONGO_PORT = 27017
 MONGO_DBNAME = 'fmcDB'
