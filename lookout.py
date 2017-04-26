@@ -185,14 +185,14 @@ def main():
                     }
                 }
         )
-        fmccursor = collection1.find()
-        print('\nDEBUG: FMCs currently in DB:\n\n')
-        for document in fmccursor:
-            print(document)
-        globcursor = collection2.find()
-        print('\nDEBUG: Global status currently in DB:\n\n')
-        for document in globcursor:
-            print(document)
+        #fmccursor = collection1.find()
+        #print('\nDEBUG: FMCs currently in DB:\n\n')
+        #for document in fmccursor:
+        #    print(document)
+        #globcursor = collection2.find()
+        #print('\nDEBUG: Global status currently in DB:\n\n')
+        #for document in globcursor:
+        #    print(document)
         
 if __name__ == '__main__':
     main()
