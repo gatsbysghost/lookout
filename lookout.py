@@ -92,6 +92,8 @@ def main():
     '''
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
+    collection1.drop()
+    collection2.drop()
     for fmc in lookoutlist.fmclist:
         result = collection1.insert_one(
         {
@@ -167,8 +169,7 @@ def main():
                 {
                     "$set": {
                         "status": fmc.status
-                    },
-                    "$currentDate": {"lastModified": True}
+                    }
                 }
             )
         result = collection2.update_one(
@@ -176,8 +177,7 @@ def main():
                 {
                     "$set": {
                         "status": cloudStatus()
-                    },
-                    "$currentDate": {"lastModified": True}
+                    }
                 }
         )
         fmccursor = collection1.find()
@@ -188,5 +188,6 @@ def main():
         print('\nDEBUG: Global status currently in DB:\n\n')
         for document in globcursor:
             print(document)
+        
 if __name__ == '__main__':
     main()
