@@ -170,7 +170,7 @@ def main():
                     "$currentDate": {"lastModified": True}
                 }
             )
-        result = collection2.insert_one(
+        result = collection2.update_one(
         {
             'status': cloudStatus()
         }
