@@ -92,8 +92,8 @@ def main():
     '''
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
-    collection1.drop()
-    collection2.drop()
+    #collection1.drop()
+    #collection2.drop()
     for fmc in lookoutlist.fmclist:
         found = collection1.find({'hostname':fmc.hostname})
         if found.count() == 0:

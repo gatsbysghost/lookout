@@ -39,4 +39,4 @@ DOMAIN = {'canaries': canaries,
 #MONGO_USERNAME = 'cisco'
 #MONGO_PASSWORD = '2BlackEyes!'
 
-#MONGO_DBNAME = 'lookout_api_db'
+MONGO_DBNAME = 'fmcDB'
