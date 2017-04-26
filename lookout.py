@@ -174,7 +174,10 @@ def main():
         result = collection2.update_one(
                 {'name': 'global'},
                 {
-                    'status': cloudStatus()
+                    "$set": {
+                        "status": cloudStatus()
+                    },
+                    "$currentDate": {"lastModified": True}
                 }
         )
         fmccursor = collection1.find()
