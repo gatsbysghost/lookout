@@ -188,6 +188,7 @@ def main():
                         if match != None:
                             # We can record the most recent failcode on the box like this:
                             badIndex.append(temp.index(line))
+                        #match = re.search('CloudAgent:IPReputation \[WARN\] Download unsucessful: Timeout was reached')
                         match = re.search('CloudAgent \[INFO\] Nothing to do, database is up to date', line)
                         if match != None:
                             goodIndex.append(temp.index(line))
@@ -201,7 +202,6 @@ def main():
                     # so in essence, our condition is just whether goodlist[-1] < badlist[1]
                     if len(goodIndex) == 0:
                         if len(badIndex) == 0:
-                            fmc.debug()
                             time.sleep(5)
                     else:
                         if len(goodIndex) > 0:
@@ -237,11 +237,11 @@ def main():
                                     fmc.fail(code)
                                     updateCanary(fmc)
                             #print('Marking FMC '+fmc.hostname+' Failed.')
-                        fmc.debug()
                         time.sleep(5)
             else:
                 #print("Didn't find a log! waiting 5")
                 time.sleep(5)
+            fmc.debug()
         lookoutweb.updateHTML()
         updateCoalmine()
         #
