@@ -5,6 +5,7 @@
 import os
 import time
 import re
+import datetime
 
 from pymongo import MongoClient
 
@@ -50,7 +51,6 @@ class Fmc(object):
         '''
         self.status = 'fail'
         self.failcode = failcode
-        
 
     def ok(self):
         '''
@@ -59,13 +59,14 @@ class Fmc(object):
         self.failcode = ''
         
     def debug(self):
-        print('------FMC DEBUG------\n')
-        print('Hostname: '+self.hostname+'\n')
-        print('IP Addr: '+self.ipaddr+'\n')
-        print('Status: '+self.status+'\n')
+        result = ('------FMC DEBUG------\n'
+                +'Hostname: '+self.hostname+'\n'
+                  +'IP Addr: '+self.ipaddr+'\n'
+                  +'Status: '+self.status+'\n')
         if self.status == 'fail':
-            print('Failure code: '+self.failcode+'\n')
-        print('----------------------')
+            result += ('Failure code: '+self.failcode+'\n')
+        result += '---------------------\n'
+        return result
 
     def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='init', failcode=''):
         self.hostname = hostname
@@ -242,7 +243,10 @@ def main():
             else:
                 #print("Didn't find a log! waiting 5")
                 time.sleep(5)
-            fmc.debug()
+            with open('lookout.log','a') as g:
+                g.write('['+str(datetime.datetime.now())+'] (lookout)\n')
+                g.write(fmc.debug())
+                g.write('\n')
         lookoutweb.updateHTML()
         updateCoalmine()
         #

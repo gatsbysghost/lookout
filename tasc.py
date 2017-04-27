@@ -60,8 +60,9 @@ def ssh(target):
     try:
         run.connect(target.ipaddr, username=target.username, password=target.passwd, look_for_keys=False, allow_agent=False)
     except Exception as e:
-        print('\nSSH ERROR: Check credentials and target IP address, and verify that '
-               'the target is configured to allow SSH access from this host.\n\n'+str(e))
+        with open('lookout.log','a') as g:
+                g.write('['+str(datetime.datetime.now())+'] (tasc) ')
+                g.write('SSH ERROR: Check credentials and target IP address, and verify that the target is configured to allow SSH access from this host.\n'+str(e))
 #        target.status = 'notconnect'
         pass
     stdin, stdout, stderr = run.exec_command(('\ncat /var/log/messages | grep CloudAgent\n'),bufsize=10000000)
@@ -85,15 +86,19 @@ def go():
     #
     while True:
         for fmc in lookoutlist.fmclist:
-            print('Running TaSc event number ' + str(n) + ' for host ' + str(fmc.hostname))
+            with open('lookout.log','a') as g:
+                g.write('['+str(datetime.datetime.now())+'] (tasc) ')
+                g.write('Running TaSc event number ' + str(n) + ' for host ' + str(fmc.hostname))
             try:
                 ssh(fmc)
-                print('Data for TaSc event ' + str(n) + ', host '+str(fmc.hostname)+
-                      ' written to log.')
+                with open('lookout.log','a') as g:
+                    g.write('['+str(datetime.datetime.now())+'] (tasc) ')
+                    g.write('Data for TaSc event ' + str(n) + ', host '+str(fmc.hostname)+' written to log.')
                 n += 1
             except Exception as e:
-                print ('\nTaSc encountered an error or an escape sequence was detected.'+
-                       '\n'+str(e))
+                with open('lookout.log','a') as g:
+                    g.write('['+str(datetime.datetime.now())+'] (tasc) ')
+                    g.write('TaSc encountered an error or an escape sequence was detected.'+'\n'+str(e))
                 pass
 
 if __name__ == '__main__':
