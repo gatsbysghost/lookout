@@ -10,7 +10,7 @@ def updateHTML():
 	html += '<!doctype html>'
 	html += '<html lang="en">'
 	html += '<head>'
-	html += '<meta charset="utf-8">'
+	html += '<meta charset="utf-8" http-equiv="refresh" content="15">'
 	html += '<title style="text-align:center;">Firepower Cloud URL DB Status Checker</title>'
 	html += '<meta name="description" content="Lookout: a Brightcloud/TALOS Monitoring Server">'
 	html += '<meta name="author" content="Scott Reu (sreu) & Garrett McCollum (gmccollu)">'
