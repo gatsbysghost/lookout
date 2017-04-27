@@ -6,7 +6,7 @@ class PwAuth(BasicAuth):
                    method):
         return username == 'cisco' and password == '2BlackEyes!'
 
-app = Eve(auth=PwAuth)
+app = Eve()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)
