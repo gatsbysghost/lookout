@@ -16,3 +16,56 @@ The basic structure is as follows:
 3. lookout.py checks the most recent logfile for each FMC (~/lookoutLog/[FMCHostname].log, looking for OK and Fail indicators.
 4. lookout.py also updates the web server according to the HTML specified in lookoutweb.py after every check it performs.
 5. lookoutAPI also runs concurrently with lookout.py and tasc.py, and this is the ListenAndServe function for the REST API element of this application. It draws its configuration from settings.py.
+### REST API Interface
+The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: *canaries* and the *coalmine*. *Canaries* are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
+
+	\{
+	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 "hostname": "TestFMC",
+	 "failcode": "",
+	 "ipaddr": “1.1.1.1”,
+	 “\_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 “\_etag": “<eTag>”,
+	 "status": "ok",
+	 “\_links": \{
+		"parent": \{
+		  "title": "home",
+		  "href": "/"
+		},
+		"collection": \{
+		  "title": "canaries",
+		  "href": "canaries"
+		},
+		"self": \{
+		  "title": "canary",
+		  "href": "canaries/<objectID>"
+		}
+	 },
+	 “\_id": "<objectID>"
+	}
+
+The *coalmine* is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
+
+	\{
+	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 “\_id": "<objectID>",
+	 “\_links": \{
+		"parent": \{
+		  "title": "home",
+		  "href": "/"
+		},
+		"collection": \{
+		  "title": "coalmine",
+		  "href": "coalmine"
+		},
+		"self": \{
+		  "title": "Coalmine",
+		  "href": "coalmine/<objectID>"
+		}
+	 },
+	 “\_etag": "<eTag>",
+	 "status": "ok",
+	 "name": "global",
+	 “\_updated": "Thu, 01 Jan 1970 00:00:00 GMT"
+	}
+
