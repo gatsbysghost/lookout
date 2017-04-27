@@ -121,7 +121,7 @@ def main():
     '''
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
-    canaries.drop()
+    #canaries.drop()
     #coalmine.drop()
     for fmc in lookoutlist.fmclist:
         found = canaries.find({'hostname':fmc.hostname})
