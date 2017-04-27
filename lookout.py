@@ -35,7 +35,7 @@ import lookoutweb
 
 client = MongoClient()
 db = client.fmcDB
-db.authenticate('mongoAdmin','SourceFirePower')
+db.authenticate('lookout','HashBangFP')
 collection1 = db.canaries
 collection2 = db.coalmine
 
