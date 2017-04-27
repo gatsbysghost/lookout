@@ -33,7 +33,7 @@ import lookoutweb
 #MongoClient('mongodb://lookout:' + 'reu%24DB' + '@127.0.0.1')
 #MongoClient('127.0.0.1', 27017)
 
-client = MongoClient()
+client = MongoClient('mongodb://mongoAdmin:SourceFirePower@127.0.0.1')
 db = client.fmcDB
 collection1 = db.canaries
 collection2 = db.coalmine
