@@ -1,5 +1,13 @@
 # README
 ## Lookout (a Cloud URL DB Status Checker Service)
+### Filesystem
+- **tasc.py**: a loop that runs while True, collecting updates from each FMC we choose to monitor.
+- **lookout.py**: a loop that runs while True, grepping the logs collected by tasc.py and checking to see whether more than one of the FMCs we’re monitoring has failed to get updates from brightcloud. This also contains the definition of the **Fmc** class, which is used throughout the program.
+- **lookoutlist.py**: the list of FMCs which we’re choosing to monitor.
+- **lookoutweb.py**: a script to update the http daemon on the server with a friendly (if sparse) readout of each FMC’s status and the overall global status. This is for diagnostic purposes only, and will be deprecated in future versions.
+- **lookoutAPI.py**: This runs while true to ListenAndServe our REST API on a given port.
+- **settings.py**: Settings for the lookoutAPI.
+
 ### Architecture
 This project is written in Python3, and assumes the following dependencies:
 
@@ -17,7 +25,7 @@ The basic structure is as follows:
 4. lookout.py also updates the web server according to the HTML specified in lookoutweb.py after every check it performs.
 5. lookoutAPI also runs concurrently with lookout.py and tasc.py, and this is the ListenAndServe function for the REST API element of this application. It draws its configuration from settings.py.
 ### REST API Interface
-The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: *canaries* and the *coalmine*. *Canaries* are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
+The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: **canaries** and the **coalmine**. **Canaries** are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
 
 	\{
 	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
@@ -44,7 +52,7 @@ The REST API for Lookout is configured to return data (read-only) from two colle
 	 “\_id": "<objectID>"
 	}
 
-The *coalmine* is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
+The **coalmine** is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
 
 	\{
 	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
