@@ -5,6 +5,7 @@
 import os
 import time
 import re
+import urllib
 
 from pymongo import MongoClient
 
@@ -26,6 +27,11 @@ import lookoutweb
 3) If n > 1 of the FMCs have a status of "fail", update the HTML to the Failed page.
     Else, update the HTML to the OK page.
 '''
+
+
+#password = urllib.quote_plus('reu$db')
+#MongoClient('mongodb://lookout:' + 'reu%24DB' + '@127.0.0.1')
+#MongoClient('127.0.0.1', 27017)
 
 client = MongoClient()
 db = client.fmcDB

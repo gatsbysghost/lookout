@@ -44,8 +44,8 @@ coalmine = {
 DOMAIN = {'canaries': canaries,
           'coalmine': coalmine}
 
-#MONGO_USERNAME = 'cisco'
-#MONGO_PASSWORD = '2BlackEyes!'
+#MONGO_USERNAME = 'lookout'
+#MONGO_PASSWORD = 'reu$db'
 MONGO_HOST = 'localhost'
 MONGO_PORT = 27017
 MONGO_DBNAME = 'fmcDB'

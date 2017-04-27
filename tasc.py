@@ -62,7 +62,6 @@ def ssh(target):
     except Exception as e:
         print('\nSSH ERROR: Check credentials and target IP address, and verify that '
                'the target is configured to allow SSH access from this host.\n\n'+str(e))
-        sys.exit(0)
     stdin, stdout, stderr = run.exec_command(('\ncat /var/log/messages | grep CloudAgent\n'),bufsize=10000000)
     # Send commands to device
     stdin.flush()
