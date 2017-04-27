@@ -68,11 +68,12 @@ class Fmc(object):
             print('Failure code: '+self.failcode+'\n')
         print('----------------------')
 
-    def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='ok', failcode=''):
+    def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='init', failcode=''):
         self.hostname = hostname
         self.ipaddr = ipaddr
         self.username = username
         self.passwd = passwd
+        #Possible statuses: 'init', 'ok', 'fail'
         self.status = status
         self.failcode = failcode
 
@@ -88,17 +89,22 @@ def cloudStatus():
     '''
     okCount = 0
     failCount = 0
+    otherCount = 0
     for fmc in lookoutlist.fmclist:
         if fmc.status == 'ok':
             okCount += 1
         elif fmc.status == 'fail':
             failCount += 1
-    if (okCount + failCount) == 1:
+        else:
+            otherCount += 1
+    if (okCount + failCount + otherCount) == 1:
         if failCount == 1:
             return 'fail'
-        else:
+        elif okCount == 1:
             return 'ok'
-    elif okCount + failCount > 1:
+        else:
+            return 'init'
+    elif (okCount + failCount + otherCount) > 1:
         if failCount >= 2:
             return 'fail'
         else:
@@ -201,19 +207,19 @@ def main():
                     else:
                         if len(goodIndex) > 0:
                             if len(badIndex) == 0:
-                                if fmc.status == 'fail':
+                                if fmc.status == 'fail' or fmc.status == 'init':
                                     fmc.ok()
                                     updateCanary(fmc)
                             else:
                                 if int(goodIndex[-1]) > int(badIndex[-1]):
-                                    if fmc.status == 'fail':
+                                    if fmc.status == 'fail' or fmc.status == 'init':
                                         fmc.ok()
                                         updateCanary(fmc)
                                     #print('Marking FMC '+fmc.hostname+' OK.')
                                 else:
                                     match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[badIndex[-1]])
                                     code = match.group(3)
-                                    if fmc.status == 'ok':
+                                    if fmc.status == 'ok' or fmc.status == 'init':
                                         fmc.fail(code)
                                         updateCanary(fmc)
                                     elif fmc.status == 'fail':
@@ -224,7 +230,7 @@ def main():
                         else:
                             match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[badIndex[-1]])
                             code = match.group(3)
-                            if fmc.status == 'ok':
+                            if fmc.status == 'ok' or fmc.status == 'init':
                                 fmc.fail(code)
                                 updateCanary(fmc)
                             elif fmc.status == 'fail':
