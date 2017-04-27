@@ -5,7 +5,6 @@
 import os
 import time
 import re
-import urllib
 
 from pymongo import MongoClient
 
