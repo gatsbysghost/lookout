@@ -30,11 +30,12 @@ import lookoutweb
 
 
 #password = urllib.quote_plus('reu$db')
-#MongoClient('mongodb://lookout:' + 'reu%24DB' + '@127.0.0.1')
+#MongoClient('mongodb://mongoAdmin:SourceFirePower@127.0.0.1')
 #MongoClient('127.0.0.1', 27017)
 
-client = MongoClient('mongodb://mongoAdmin:SourceFirePower@127.0.0.1')
+client = MongoClient()
 db = client.fmcDB
+db.authenticate('mongoAdmin','SourceFirePower')
 collection1 = db.canaries
 collection2 = db.coalmine
 
