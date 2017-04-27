@@ -95,7 +95,6 @@ def go():
                 print ('\nTaSc encountered an error or an escape sequence was detected.'+
                        '\n'+str(e))
                 pass
-    exit()
 
 if __name__ == '__main__':
     go()
