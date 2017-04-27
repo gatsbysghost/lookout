@@ -28,52 +28,52 @@ The basic structure is as follows:
 The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: **canaries** and the **coalmine**. **Canaries** are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
 
 	{
-	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 “_created": "Thu, 01 Jan 1970 00:00:00 GMT",
 	 "hostname": "TestFMC",
 	 "failcode": "",
 	 "ipaddr": “1.1.1.1”,
-	 “\_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
-	 “\_etag": “<eTag>”,
+	 “_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 “_etag": “<eTag>”,
 	 "status": "ok",
-	 “\_links": \{
+	 “_links": \{
 		"parent": \{
 		  "title": "home",
 		  "href": "/"
 		},
-		"collection": \{
+		"collection": {
 		  "title": "canaries",
 		  "href": "canaries"
 		},
-		"self": \{
+		"self": {
 		  "title": "canary",
 		  "href": "canaries/<objectID>"
 		}
 	 },
-	 “\_id": "<objectID>"
+	 “_id": "<objectID>"
 	}
 
 The **coalmine** is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
 
 	{
-	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
-	 “\_id": "<objectID>",
-	 “\_links": \{
-		"parent": \{
+	 “_created": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 “_id": "<objectID>",
+	 “_links": {
+		"parent": {
 		  "title": "home",
 		  "href": "/"
 		},
-		"collection": \{
+		"collection": {
 		  "title": "coalmine",
 		  "href": "coalmine"
 		},
-		"self": \{
+		"self": {
 		  "title": "Coalmine",
 		  "href": "coalmine/<objectID>"
 		}
 	 },
-	 “\_etag": "<eTag>",
+	 “_etag": "<eTag>",
 	 "status": "ok",
 	 "name": "global",
-	 “\_updated": "Thu, 01 Jan 1970 00:00:00 GMT"
+	 “_updated": "Thu, 01 Jan 1970 00:00:00 GMT"
 	}
 
