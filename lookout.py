@@ -77,6 +77,15 @@ class Fmc(object):
         self.failcode = failcode
 
 def cloudStatus():
+    '''
+    Initialize some counters.
+    For every FMC in our python data structure, increment the 'ok' counter if the device has an 'ok' status
+    likewise increment the 'fail' counter if the device has a 'fail' status.
+    If there is exactly one monitored FMC, return that FMC's status (str) as the global status.
+    Else, if there is more than one monitored FMC,
+            if 2 or more boxes have failed, return 'fail' as the global status.
+            if 0 or 1 boxes have failed, return 'ok' as the global status.
+    '''
     okCount = 0
     failCount = 0
     for fmc in lookoutlist.fmclist:
@@ -96,6 +105,11 @@ def cloudStatus():
             return 'ok'
 
 def updateCanary(fmc):
+    '''
+    Given an Fmc object as input:
+    Find the entry in the fmcDB, in the canaries collection, with that object's hostname
+    Set that database's "status" field to the current status of the Fmc object.
+    '''
     result = canaries.update_one(
         {"hostname": fmc.hostname},
         {
@@ -108,6 +122,11 @@ def updateCanary(fmc):
     return result
 
 def updateCoalmine():
+    '''
+    Update the Coalmine collection in the fmcDB (mongoDB)
+    Find the member with the name "Global" (the only thing in this collection)
+    Set the status to the result of cloudStatus().
+    '''
     result = coalmine.update_one(
         {'name': 'global'},
         {
@@ -119,6 +138,13 @@ def updateCoalmine():
 
 def main():
     '''
+    While true, check whether there has been a known "OK" CloudAgent log since the last time we checked.
+    Check whether there has been a known "Fail"-condition CloudAgent log since the last time we checked.
+    If one of these has been detected, and it's more recent than a log of the other type (e.g.,
+    if we get a fail log and it's occurred more recently than an OK log, or vice versa), then
+    update the FMC's status parameter to reflect the current status.
+    
+    Then, evaluate the status of Brightcloud in general based on how many of our test boxes have failed.
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
     #canaries.drop()
