@@ -119,7 +119,8 @@ def updateCanary(fmc):
         {"hostname": fmc.hostname},
         {
             "$set": {
-                "status": fmc.status
+                "status": fmc.status,
+                "failcode":fmc.failcode
             },
             "$currentDate": {"lastModified": True}
         }
