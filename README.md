@@ -27,7 +27,7 @@ The basic structure is as follows:
 ### REST API Interface
 The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: **canaries** and the **coalmine**. **Canaries** are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
 
-	\{
+	{
 	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
 	 "hostname": "TestFMC",
 	 "failcode": "",
@@ -54,7 +54,7 @@ The REST API for Lookout is configured to return data (read-only) from two colle
 
 The **coalmine** is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
 
-	\{
+	{
 	 “\_created": "Thu, 01 Jan 1970 00:00:00 GMT",
 	 “\_id": "<objectID>",
 	 “\_links": \{
