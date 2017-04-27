@@ -36,8 +36,8 @@ import lookoutweb
 client = MongoClient()
 db = client.fmcDB
 db.authenticate('lookout','HashBangFP')
-collection1 = db.canaries
-collection2 = db.coalmine
+canaries = db.canaries
+coalmine = db.coalmine
 
 class Fmc(object):
     '''
@@ -95,16 +95,38 @@ def cloudStatus():
         else:
             return 'ok'
 
+def updateCanary(fmc):
+    result = canaries.update_one(
+        {"hostname": fmc.hostname},
+        {
+            "$set": {
+                "status": fmc.status
+            },
+            "$currentDate": {"lastModified": True}
+        }
+    )
+    return result
+
+def updateCoalmine():
+    result = coalmine.update_one(
+        {'name': 'global'},
+        {
+            "$set": {
+                "status": cloudStatus()
+            }
+        }
+    )
+
 def main():
     '''
     '''
     os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
-    #collection1.drop()
-    #collection2.drop()
+    canaries.drop()
+    #coalmine.drop()
     for fmc in lookoutlist.fmclist:
-        found = collection1.find({'hostname':fmc.hostname})
+        found = canaries.find({'hostname':fmc.hostname})
         if found.count() == 0:
-            result = collection1.insert_one(
+            result = canaries.insert_one(
             {
                 'hostname': fmc.hostname,
                 'ipaddr': fmc.ipaddr,
@@ -112,9 +134,9 @@ def main():
                 'failcode': fmc.failcode
             }
             )
-    globfound = collection2.find({'name':'global'})
+    globfound = coalmine.find({'name':'global'})
     if globfound.count() == 0:
-        result = collection2.insert_one(
+        result = coalmine.insert_one(
             {
                 'name': 'global',
                 'status': 'ok'
@@ -153,20 +175,36 @@ def main():
                     else:
                         if len(goodIndex) > 0:
                             if len(badIndex) == 0:
-                                fmc.ok()
+                                if fmc.status == 'fail':
+                                    fmc.ok()
+                                    updateCanary(fmc)
                             else:
                                 if int(goodIndex[-1]) > int(badIndex[-1]):
-                                    fmc.ok()
+                                    if fmc.status == 'fail':
+                                        fmc.ok()
+                                        updateCanary(fmc)
                                     #print('Marking FMC '+fmc.hostname+' OK.')
                                 else:
                                     match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[badIndex[-1]])
                                     code = match.group(3)
-                                    fmc.fail(code)
+                                    if fmc.status == 'ok':
+                                        fmc.fail(code)
+                                        updateCanary(fmc)
+                                    elif fmc.status == 'fail':
+                                        if fmc.failcode != code:
+                                            fmc.fail(code)
+                                            updateCanary(fmc)
                                     #print('Marking FMC '+fmc.hostname+' Failed.')
                         else:
                             match = re.search('(CloudAgent \[WARN\]) .* (Socket error\.) Status: (.+)',temp[badIndex[-1]])
                             code = match.group(3)
-                            fmc.fail(code)
+                            if fmc.status == 'ok':
+                                fmc.fail(code)
+                                updateCanary(fmc)
+                            elif fmc.status == 'fail':
+                                if fmc.failcode != code:
+                                    fmc.fail(code)
+                                    updateCanary(fmc)
                             #print('Marking FMC '+fmc.hostname+' Failed.')
                         fmc.debug()
                         time.sleep(5)
@@ -174,29 +212,15 @@ def main():
                 #print("Didn't find a log! waiting 5")
                 time.sleep(5)
         lookoutweb.updateHTML()
-        for fmc in lookoutlist.fmclist:
-            result = collection1.update_one(
-                {"hostname": fmc.hostname},
-                {
-                    "$set": {
-                        "status": fmc.status
-                    },
-                    #"$currentDate": {"lastModified": True}
-                }
-            )
-        result = collection2.update_one(
-                {'name': 'global'},
-                {
-                    "$set": {
-                        "status": cloudStatus()
-                    }
-                }
-        )
-        #fmccursor = collection1.find()
+        updateCoalmine()
+        #
+        # Debug DB:
+        #
+        #fmccursor = canaries.find()
         #print('\nDEBUG: FMCs currently in DB:\n\n')
         #for document in fmccursor:
         #    print(document)
-        #globcursor = collection2.find()
+        #globcursor = coalmine.find()
         #print('\nDEBUG: Global status currently in DB:\n\n')
         #for document in globcursor:
         #    print(document)
