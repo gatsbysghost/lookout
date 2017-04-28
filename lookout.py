@@ -255,7 +255,7 @@ def main():
         lookoutweb.updateHTML()
         updateCoalmine()
         with open('lookout.log','a') as g:
-                g.write('['+str(datetime.datetime.now())+'] (lookout) OVERALL (COALMINE) STATUS: '+cloudStatus())
+                g.write('['+str(datetime.datetime.now())+'] (lookout) OVERALL (COALMINE) STATUS: '+cloudStatus()+'\n')
         #
         # Debug DB:
         #
