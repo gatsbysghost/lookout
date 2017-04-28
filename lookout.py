@@ -59,13 +59,13 @@ class Fmc(object):
         self.failcode = ''
         
     def debug(self):
-        result = ('------FMC DEBUG------\n'
-                +'Hostname: '+self.hostname+'\n'
-                  +'IP Addr: '+self.ipaddr+'\n'
-                  +'Status: '+self.status+'\n')
+        result = ('STATUS FOR FMC/CANARY '+self.hostname+' ('+self.ipaddr+'): '+self.status)
         if self.status == 'fail':
-            result += ('Failure code: '+self.failcode+'\n')
-        result += '---------------------\n'
+            result += (', failure code: ')
+            if self.failcode != '':
+                result += self.failcode
+            else:
+                result += 'n/a'
         return result
 
     def __init__(self, hostname=None, ipaddr=None, username='', passwd='', status='init', failcode=''):
@@ -247,8 +247,15 @@ def main():
                 g.write('['+str(datetime.datetime.now())+'] (lookout)\n')
                 g.write(fmc.debug())
                 g.write('\n')
+        for fmc in lookoutlist.fmclist:
+            with open('lookout.log','a') as g:
+                g.write('['+str(datetime.datetime.now())+'] (lookout)\n')
+                g.write(fmc.debug())
+                g.write('\n')
         lookoutweb.updateHTML()
         updateCoalmine()
+        with open('lookout.log','a') as g:
+                g.write('['+str(datetime.datetime.now())+'] (lookout) OVERALL (COALMINE) STATUS: '+cloudStatus())
         #
         # Debug DB:
         #
