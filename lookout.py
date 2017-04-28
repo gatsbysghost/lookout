@@ -243,10 +243,6 @@ def main():
             else:
                 #print("Didn't find a log! waiting 5")
                 time.sleep(5)
-            with open('lookout.log','a') as g:
-                g.write('['+str(datetime.datetime.now())+'] (lookout) ')
-                g.write(fmc.debug())
-                g.write('\n')
         for fmc in lookoutlist.fmclist:
             with open('lookout.log','a') as g:
                 g.write('['+str(datetime.datetime.now())+'] (lookout) ')
