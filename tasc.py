@@ -17,7 +17,7 @@ import lookoutlist
 # Logging File Setup
 # Create a log folder in the server user's ~ directory
 logloc = os.path.expanduser('~')
-os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
+os.chdir('/home/support/lookoutLog'))
 for anyfile in os.listdir(logloc):
     path = os.path.join(logloc, anyfile)
     try:

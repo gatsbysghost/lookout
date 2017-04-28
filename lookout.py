@@ -153,7 +153,7 @@ def main():
     
     Then, evaluate the status of Brightcloud in general based on how many of our test boxes have failed.
     '''
-    os.chdir(os.path.join(os.path.expanduser('~'), 'lookoutLog'))
+    os.chdir('/home/support/lookoutLog')
     #canaries.drop()
     #coalmine.drop()
     for fmc in lookoutlist.fmclist:
