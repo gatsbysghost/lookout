@@ -10,6 +10,7 @@
 - systemctl can be used to manage these services (start, stop, status, enable, disable)
 - Logging for tasc and lookout is sent to the unified logfile /home/support/lookoutList/lookout.log
 	- This logfile is automatically deleted every Monday at 3:30am system time (i.e., we keep logs for at most a week—this was scheduled with crontab and can be modified there if necessary)
+
 ### Source files (in /home/support/code/lookout)
 - **tasc.py**: a loop that runs while True, collecting updates from each FMC we choose to monitor.
 - **lookout.py**: a loop that runs while True, grepping the logs collected by tasc.py and checking to see whether more than one of the FMCs we’re monitoring has failed to get updates from brightcloud. This also contains the definition of the **Fmc** class, which is used throughout the program.
@@ -34,19 +35,20 @@ The basic structure is as follows:
 3. lookout.py checks the most recent logfile for each FMC (~/lookoutLog/[FMCHostname].log, looking for OK and Fail indicators.
 4. lookout.py also updates the web server according to the HTML specified in lookoutweb.py after every check it performs.
 5. lookoutAPI also runs concurrently with lookout.py and tasc.py, and this is the ListenAndServe function for the REST API element of this application. It draws its configuration from settings.py.
+
 ### REST API Interface
 The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: **canaries** and the **coalmine**. **Canaries** are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
 
 	{
-	 “_created": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 "_created": "Thu, 01 Jan 1970 00:00:00 GMT",
 	 "hostname": "TestFMC",
 	 "failcode": "",
-	 "ipaddr": “1.1.1.1”,
-	 “_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
-	 “_etag": “<eTag>”,
+	 "ipaddr": "1.1.1.1",
+	 "_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
+	 "_etag": "<eTag>”,
 	 "status": "ok",
-	 “_links": \{
-		"parent": \{
+	 "_links": {
+		"parent": {
 		  "title": "home",
 		  "href": "/"
 		},
@@ -59,7 +61,7 @@ The REST API for Lookout is configured to return data (read-only) from two colle
 		  "href": "canaries/<objectID>"
 		}
 	 },
-	 “_id": "<objectID>"
+	 "_id": "<objectID>"
 	}
 
 The **coalmine** is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
