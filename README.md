@@ -1,6 +1,16 @@
 # README
 ## Lookout (a Cloud URL DB Status Checker Service)
-### Filesystem
+### Server Administration
+- **NOTE: Any time the server reboots, it will be necessary to manually start the mongodb engine.** The command to do so is:
+`sudo mongod --fork --config /etc/mongod.conf --auth`
+- Three main services auto-start with systemd (config files in /lib/systemd/system):
+	- tasc (Automated SSH to monitored FMCs)
+	- lookout (Status Checker & Database Updater)
+	- lookoutAPI (ListenAndServe application for REST API access)
+- systemctl can be used to manage these services (start, stop, status, enable, disable)
+- Logging for tasc and lookout is sent to the unified logfile /home/support/lookoutList/lookout.log
+	- This logfile is automatically deleted every Monday at 3:30am system time (i.e., we keep logs for at most a week—this was scheduled with crontab and can be modified there if necessary)
+### Source files (in /home/support/code/lookout)
 - **tasc.py**: a loop that runs while True, collecting updates from each FMC we choose to monitor.
 - **lookout.py**: a loop that runs while True, grepping the logs collected by tasc.py and checking to see whether more than one of the FMCs we’re monitoring has failed to get updates from brightcloud. This also contains the definition of the **Fmc** class, which is used throughout the program.
 - **lookoutlist.py**: the list of FMCs which we’re choosing to monitor.
