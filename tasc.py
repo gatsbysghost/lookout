@@ -62,7 +62,7 @@ def ssh(target):
     except Exception as e:
         with open('lookout.log','a') as g:
                 g.write('['+str(datetime.datetime.now())+'] (tasc) ')
-                g.write('SSH ERROR: Check credentials and target IP address, and verify that the target is configured to allow SSH access from this host.\n'+str(e))
+                g.write('SSH ERROR: Check credentials and target IP address, and verify that the target is configured to allow SSH access from this host.\n'+str(e)+'\n')
 #        target.status = 'notconnect'
         pass
     stdin, stdout, stderr = run.exec_command(('\ncat /var/log/messages | grep CloudAgent\n'),bufsize=10000000)
@@ -88,12 +88,12 @@ def go():
         for fmc in lookoutlist.fmclist:
             with open('lookout.log','a') as g:
                 g.write('['+str(datetime.datetime.now())+'] (tasc) ')
-                g.write('Running TaSc event number ' + str(n) + ' for host ' + str(fmc.hostname))
+                g.write('Running TaSc event number ' + str(n) + ' for host ' + str(fmc.hostname)+'\n')
             try:
                 ssh(fmc)
                 with open('lookout.log','a') as g:
                     g.write('['+str(datetime.datetime.now())+'] (tasc) ')
-                    g.write('Data for TaSc event ' + str(n) + ', host '+str(fmc.hostname)+' written to log.')
+                    g.write('Data for TaSc event ' + str(n) + ', host '+str(fmc.hostname)+' written to log.\n')
                 n += 1
             except Exception as e:
                 with open('lookout.log','a') as g:
