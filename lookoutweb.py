@@ -39,9 +39,10 @@ def updateHTML():
 
 		if fmc.status == 'ok':
 			html += 'lime'
-		else:
+		elif fmc.status == 'fail':
 			html += 'red'
-
+		else:
+			html += 'yellow'
 		html += ';">'
 
 		html += '<td>'+fmc.hostname+'</td>'
