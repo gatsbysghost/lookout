@@ -68,7 +68,8 @@ def ssh(target):
     stdin, stdout, stderr = run.exec_command(('\ncat /var/log/messages | grep CloudAgent\n'),bufsize=10000000)
     # Send commands to device
     stdin.flush()
-    time.sleep(45)
+    while not stdout.channel.exit_status_ready():
+        time.sleep(1)
     output = stdout.channel.recv(10000000)
     output2 = output.decode('ISO-8859-1')
     rmLog(target)
