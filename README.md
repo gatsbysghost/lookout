@@ -7,9 +7,20 @@
 	- tasc (Automated SSH to monitored FMCs)
 	- lookout (Status Checker & Database Updater)
 	- lookoutAPI (ListenAndServe application for REST API access)
+	- **It may be necessary to start these after starting the DB in case of a reboot.**
 - systemctl can be used to manage these services (start, stop, status, enable, disable)
 - Logging for tasc and lookout is sent to the unified logfile /home/support/lookoutList/lookout.log
 	- This logfile is automatically deleted every Monday at 3:30am system time (i.e., we keep logs for at most a week—this was scheduled with crontab and can be modified there if necessary)
+
+#### Some useful aliases in /home/support/.bashrc:
+- “start” = start the tasc and lookout services
+- “stop” = stop the tasc and lookout services
+	- These first two can be used to make changes to code without disconnecting the API. Most git pulls can be made by simply starting and stopping.
+- “startall” = start tasc, lookout, and lookoutAPI
+- “stopall” = stop tasc, lookout, and lookoutAPI
+- “log” = `tailf /home/support/lookoutList/lookout.log`
+- “status” = get the status of all services on the box.
+- “dbstart” = `sudo mongod --fork --config /etc/mongod.conf --auth`
 
 ### Source files (in /home/support/code/lookout)
 - **tasc.py**: a loop that runs while True, collecting updates from each FMC we choose to monitor.
