@@ -101,6 +101,6 @@ def go():
                     g.write('['+str(datetime.datetime.now())+'] (tasc) ')
                     g.write('TaSc encountered an error or an escape sequence was detected.'+'\n'+str(e))
                 pass
-
+            time.sleep(10)
 if __name__ == '__main__':
     go()
