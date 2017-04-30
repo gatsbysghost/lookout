@@ -15,7 +15,7 @@ import lookoutlist
 # GLOBAL VARIABLES
 #
 # Logging File Setup
-# Create a log folder in the server user's ~ directory
+# Delete any files in the logging directory
 logloc = os.path.expanduser('~')
 os.chdir('/home/support/lookoutLog')
 for anyfile in os.listdir(logloc):
@@ -25,11 +25,6 @@ for anyfile in os.listdir(logloc):
             os.unlink(path)
     except Exception as e:
         print(str(e))
-# Initialize list of commands to be run.
-
-#
-# PRIMARY FUNCTIONS
-#
 
 def newLog(target):
     logfilename = target.hostname+'.log'
@@ -41,8 +36,6 @@ def rmLog(target):
     if os.path.isfile(logfilename):
         os.remove(logfilename)
 
-# ssh() is adapted from the work of Kirk Byers
-# see: https://pynet.twb-tech.com/blog/python/paramiko-ssh-part1.html
 def ssh(target):
     '''
     Input: IP address (string), username (string), password (string), enable password (string),
@@ -82,9 +75,6 @@ def ssh(target):
 def go():
     # Loop counter
     n = 1
-    #
-    # MAIN LOOP
-    #
     while True:
         for fmc in lookoutlist.fmclist:
             with open('lookout.log','a') as g:
