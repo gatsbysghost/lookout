@@ -1,8 +1,12 @@
 # README
 ## Lookout (a Cloud URL DB Status Checker Service)
-### Server Administration
-- **NOTE: Any time the server reboots, it will be necessary to manually start the mongodb engine.** The command to do so is:
+### Important notes if you are attempting to reproduce the project
+- I’ve added the following line to /etc/crontab on each FMC we’re monitoring to delete the full brightcloud db (to trigger a download attempt):
+`*/9 * * * * root rm -f /var/sf/cloud_download/full_bcdb*`
+-  Any time the server boots up, it will be necessary to manually start the mongodb engine (and it may be necessary to start the Python services). The command to do so is:
 `sudo mongod --fork --config /etc/mongod.conf --auth`
+
+### Server Administration
 - Three main services auto-start with systemd (config files in /lib/systemd/system):
 	- tasc (Automated SSH to monitored FMCs)
 	- lookout (Status Checker & Database Updater)
