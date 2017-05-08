@@ -1,8 +1,9 @@
 # README
 ## Lookout (a Cloud URL DB Status Checker Service)
 ### Important notes if you are attempting to reproduce the project
-- I’ve added the following line to /etc/crontab on each FMC we’re monitoring to delete the full brightcloud db (to trigger a download attempt):
-`*/9 * * * * root rm -f /var/sf/cloud_download/full_bcdb*`
+- I’ve added the following line to /etc/crontab on each FMC we’re monitoring to delete the full and partial brightcloud dbs (to trigger a download attempt):
+`*/9 * * * * root rm -f /var/sf/cloud_download/full_bcdb*
+*/9 * * * * root rm -f /var/sf/cloud_download/part_bcdb*`
 -  Any time the server boots up, it will be necessary to manually start the mongodb engine (and it may be necessary to start the Python services). The command to do so is:
 `sudo mongod --fork --config /etc/mongod.conf --auth`
 
