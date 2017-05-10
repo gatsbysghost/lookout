@@ -124,7 +124,6 @@ def updateCanary(fmc):
                 "failcode":fmc.failcode
             },
             "$currentDate": {
-                "lastModified": True,
                 "updated": {"$type": "date"}
                 }
         }
@@ -144,7 +143,6 @@ def updateCoalmine():
                 "status": cloudStatus()
             },
             "$currentDate": {
-                "lastModified": True,
                 "updated": {"$type": "date"}
                 }
         }
