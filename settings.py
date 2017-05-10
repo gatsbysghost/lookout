@@ -10,7 +10,7 @@ fmcschema = {
     },
     'failcode': {
         'type': 'string'
-    }
+    },
     'lastModified': {
         'type': 'timestamp'
     }
@@ -22,7 +22,7 @@ overallschema = {
     },
     'status': {
         'type': 'string'
-    }
+    },
     'lastModified': {
         'type': 'timestamp'
     }
