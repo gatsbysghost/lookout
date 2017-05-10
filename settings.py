@@ -44,6 +44,7 @@ coalmine = {
 DOMAIN = {'canaries': canaries,
           'coalmine': coalmine}
 
+ALLOW_UNKNOWN = True
 MONGO_USERNAME = 'lookout'
 MONGO_PASSWORD = 'HashBangFP'
 MONGO_HOST = 'localhost'
