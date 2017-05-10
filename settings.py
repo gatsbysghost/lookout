@@ -10,9 +10,6 @@ fmcschema = {
     },
     'failcode': {
         'type': 'string'
-    },
-    'updated': {
-        'type': 'date'
     }
 }
 
@@ -22,9 +19,6 @@ overallschema = {
     },
     'status': {
         'type': 'string'
-    },
-    'updated': {
-        'type': 'date'
     }
 }
 
