@@ -1,8 +1,7 @@
 # README
 ## Lookout (a Cloud URL DB Status Checker Service)
 ### Important notes if you are attempting to reproduce the project
-- I’ve added the following line to /etc/crontab on each FMC we’re monitoring to delete the full and partial brightcloud dbs (to trigger a download attempt):
-
+- I’ve added the following line to /etc/crontab on each FMC we’re monitoring to delete the full brightcloud db (to trigger a download attempt):
 `*/9 * * * * root rm -f /var/sf/cloud_download/full_bcdb*
 */9 * * * * root rm -f /var/sf/cloud_download/part_bcdb*`
 -  Any time the server boots up, it will be necessary to manually start the mongodb engine (and it may be necessary to start the Python services). The command to do so is:
@@ -57,52 +56,53 @@ The basic structure is as follows:
 The REST API for Lookout is configured to return data (read-only) from two collections when it receives GET requests: **canaries** and the **coalmine**. **Canaries** are individual FMCs, and a canary (\<LookoutServerURL\>/canaries/\<FMC\_hostname\>) returns JSON like this (where objectID is a UUID):
 
 	{
-	 "_created": "Thu, 01 Jan 1970 00:00:00 GMT",
-	 "hostname": "TestFMC",
-	 "failcode": "",
-	 "ipaddr": "1.1.1.1",
-	 "_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
-	 "_etag": "<eTag>”,
-	 "status": "ok",
-	 "_links": {
-		"parent": {
-		  "title": "home",
-		  "href": "/"
-		},
-		"collection": {
-		  "title": "canaries",
-		  "href": "canaries"
-		},
-		"self": {
-		  "title": "canary",
-		  "href": "canaries/<objectID>"
-		}
-	 },
-	 "_id": "<objectID>"
+	  "failcode": "",
+	  "hostname": "Lookout_RTP_FMC",
+	  "_links": {
+	    "self": {
+	      "title": "canary",
+	      "href": "canaries/59133e2ff4efde12d6de6a7f"
+	    },
+	    "collection": {
+	      "title": "canaries",
+	      "href": "canaries"
+	    },
+	    "parent": {
+	      "title": "home",
+	      "href": "/"
+	    }
+	  },
+	  "_id": "59133e2ff4efde12d6de6a7f",
+	  "_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
+	  "ipaddr": "172.18.124.211",
+	  "_etag": "0806059dea67ca1ca10e7768a2e960de1c2917db",
+	  "lastModified": "Wed, 10 May 2017 17:48:30 GMT",
+	  "status": "ok",
+	  "_created": "Thu, 01 Jan 1970 00:00:00 GMT"
 	}
 
 The **coalmine** is the global status (i.e., the computed status of the URL Filtering cloud, taking into account individual unit failures). The JSON of \<LookoutServerURL\>/coalmine/global looks like this:
 
 	{
-	 “_created": "Thu, 01 Jan 1970 00:00:00 GMT",
-	 “_id": "<objectID>",
-	 “_links": {
-		"parent": {
-		  "title": "home",
-		  "href": "/"
-		},
-		"collection": {
-		  "title": "coalmine",
-		  "href": "coalmine"
-		},
-		"self": {
-		  "title": "Coalmine",
-		  "href": "coalmine/<objectID>"
-		}
-	 },
-	 “_etag": "<eTag>",
-	 "status": "ok",
-	 "name": "global",
-	 “_updated": "Thu, 01 Jan 1970 00:00:00 GMT"
+	  "name": "global",
+	  "_updated": "Thu, 01 Jan 1970 00:00:00 GMT",
+	  "_links": {
+	    "self": {
+	      "title": "Coalmine",
+	      "href": "coalmine/59133e2ff4efde12d6de6a83"
+	    },
+	    "collection": {
+	      "title": "coalmine",
+	      "href": "coalmine"
+	    },
+	    "parent": {
+	      "title": "home",
+	      "href": "/"
+	    }
+	  },
+	  "_id": "59133e2ff4efde12d6de6a83",
+	  "_etag": "281c57c9c19893089227c1beb3ce589996d9b226",
+	  "lastModified": "Wed, 10 May 2017 17:50:51 GMT",
+	  "status": "ok",
+	  "_created": "Thu, 01 Jan 1970 00:00:00 GMT"
 	}
-
