@@ -1,5 +1,5 @@
 # README
-## Lookout (a Cloud URL DB Status Checker Service)
+## Lookout (a Cloud URL DB Status Checker Service for Cisco Firepower)
 ### Important notes if you are attempting to reproduce the project
 - I’ve added the following lines to /etc/crontab on each FMC we’re monitoring to delete the full brightcloud db (to trigger a download attempt):
 `*/9 * * * * root rm -f /var/sf/cloud_download/full_bcdb*
